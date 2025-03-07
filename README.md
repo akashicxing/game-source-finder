@@ -17,6 +17,36 @@
 - npm 或 yarn
 - Cloudflare 账号
 
+### 代码仓库同步说明
+
+本项目同时托管在 Gitee 和 GitHub 上：
+
+- Gitee: https://gitee.com/akashicxing/game-source-finder
+- GitHub: https://github.com/akashicxing/game-source-finder
+
+#### 本地仓库设置
+
+1. 克隆 Gitee 仓库：
+```bash
+git clone https://gitee.com/akashicxing/game-source-finder.git
+cd game-source-finder
+```
+
+2. 添加 GitHub 远程仓库（可选）：
+```bash
+git remote add github https://github.com/akashicxing/game-source-finder.git
+```
+
+#### Gitee 和 GitHub 自动同步
+
+本项目使用 Gitee 的仓库镜像功能实现自动同步：
+
+1. Gitee 更新会自动同步到 GitHub
+2. 同步周期：实时触发，最长等待时间 30 分钟
+3. 同步方向：Gitee -> GitHub（单向）
+
+注意：请优先向 Gitee 仓库提交代码，系统会自动同步到 GitHub。
+
 ### 安装步骤
 
 1. 克隆仓库：

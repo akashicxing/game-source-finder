@@ -1,6 +1,10 @@
-# 游戏源地址查找器
+# 游戏源地址查找器game-source-finder
 
 一个使用 Cloudflare Workers 查找在线游戏 iframe 源地址的工具。
+
+## 在线使用
+
+访问：[https://gamesource-finder.online](https://gamesource-finder.online)
 
 ## 功能特点
 
@@ -105,7 +109,7 @@ npm run deploy
 ### 查找游戏源地址
 
 ```bash
-curl -X POST https://your-worker.workers.dev \
+curl -X POST https://gamesource-finder.online \
   -H "Content-Type: application/json" \
   -d '{"url":"https://www.onlinegames.io/monster-survivors/"}'
 ```
@@ -115,6 +119,12 @@ curl -X POST https://your-worker.workers.dev \
 {
   "source": "https://cloud.onlinegames.io/games/2025/unity/monster-survivors/index-og.html"
 }
+```
+
+### 健康检查
+
+```bash
+curl https://gamesource-finder.online/health
 ```
 
 ## 错误处理

@@ -17,4 +17,7 @@ compatibility_flags = ["nodejs_compat"]
 # 资源限制配置
 [limits]
 cpu_ms = 50
-memory_mb = 128 
+memory_mb = 128
+
+[dev]
+port = 8778 

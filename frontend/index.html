@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Find the source URL of online game iframes easily">
+    <link rel="canonical" href="https://yourdomain.com" />
+    <title>Game Source Finder | Extract iframe URLs</title>
+    <style>
+        :root {
+            --apple-blue: #007AFF;
+            --apple-gray: #8E8E93;
+            --apple-light-gray: #F2F2F7;
+            --apple-white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--apple-light-gray);
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--apple-white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #1D1D1F;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        h2 {
+            color: #1D1D1F;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+        }
+
+        .input-group {
+            margin: 2rem 0;
+        }
+
+        input[type="url"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--apple-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="url"]:focus {
+            outline: none;
+            border-color: var(--apple-blue);
+        }
+
+        button {
+            background-color: var(--apple-blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: var(--apple-light-gray);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .copy-btn {
+            margin-top: 1rem;
+            background-color: var(--apple-gray);
+        }
+
+        .error {
+            color: #FF3B30;
+            margin-top: 0.5rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Game Source Finder</h1>
+        
+        <h2>Extract Game Source URLs</h2>
+        <p>Find the source URL of online games by entering the game page URL below.</p>
+
+        <div class="input-group">
+            <input type="url" id="gameUrl" placeholder="Enter game URL (e.g., https://www.onlinegames.io/game-name/)" required>
+            <button onclick="findSource()">Find Source</button>
+            <div class="error" id="error">Please enter a valid URL</div>
+        </div>
+
+        <h2>Result</h2>
+        <div class="result" id="result">
+            <p>Source URL:</p>
+            <p id="sourceUrl"></p>
+            <button class="copy-btn" onclick="copyToClipboard()">Copy URL</button>
+        </div>
+
+        <h2>How It Works</h2>
+        <p>This tool helps you extract the source URL from online game iframes. Simply paste the game page URL and click "Find Source" to get the direct game source URL.</p>
+    </div>
+
+    <script>
+        async function findSource() {
+            const gameUrl = document.getElementById('gameUrl').value;
+            const error = document.getElementById('error');
+            const result = document.getElementById('result');
+            const sourceUrl = document.getElementById('sourceUrl');
+
+            if (!isValidUrl(gameUrl)) {
+                error.style.display = 'block';
+                result.classList.remove('show');
+                return;
+            }
+
+            error.style.display = 'none';
+            
+            try {
+                const response = await fetch('/find_source', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url: gameUrl })
+                });
+
+                const data = await response.json();
+                
+                if (data.source) {
+                    sourceUrl.textContent = data.source;
+                    result.classList.add('show');
+                } else {
+                    sourceUrl.textContent = 'No source URL found';
+                    result.classList.add('show');
+                }
+            } catch (err) {
+                error.textContent = 'An error occurred while finding the source';
+                error.style.display = 'block';
+            }
+        }
+
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
+        function copyToClipboard() {
+            const sourceUrl = document.getElementById('sourceUrl').textContent;
+            navigator.clipboard.writeText(sourceUrl).then(() => {
+                const copyBtn = document.querySelector('.copy-btn');
+                copyBtn.textContent = 'Copied!';
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy URL';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html> 

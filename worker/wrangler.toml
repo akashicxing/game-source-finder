@@ -1,0 +1,20 @@
+name = "game-source-finder"
+main = "src/index.ts"
+compatibility_date = "2024-03-07"
+
+# 开发环境配置
+[env.development]
+vars = { ENVIRONMENT = "development" }
+
+# 生产环境配置
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+# 允许的请求源
+[configuration]
+compatibility_flags = ["nodejs_compat"]
+
+# 资源限制配置
+[limits]
+cpu_ms = 50
+memory_mb = 128 

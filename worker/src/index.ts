@@ -86,7 +86,7 @@ export default {
 			});
 		}
 
-		// 处理 API 请求
+		// 处理 API 请求 - 修改路由
 		if (url.pathname === '/' && request.method === 'POST') {
 			const response = await findGameSource(request);
 			statsManager.recordRequest(response.status === 200);

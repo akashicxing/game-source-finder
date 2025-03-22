@@ -229,9 +229,14 @@ export const getHtml = () => `
                 if (data.source) {
                     sourceUrl.textContent = data.source;
                     result.classList.add('show');
+                } else {
+                    sourceUrl.textContent = data.error || '未找到源地址';
+                    result.classList.add('show');
                 }
             } catch (err) {
                 console.error('Error:', err);
+                sourceUrl.textContent = '请求出错，请稍后重试';
+                result.classList.add('show');
             }
         }
 

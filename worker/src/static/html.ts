@@ -46,17 +46,18 @@ export const getHtml = () => `
 
         .language-btn {
             background: none;
-            border: 1px solid var(--apple-gray);
+            border: none;
             padding: 4px 8px;
             border-radius: 4px;
             cursor: pointer;
-            opacity: 0.6;
+            color: #000;  /* 默认黑色 */
+            opacity: 1;   /* 总是显示 */
+            font-size: 1rem;
         }
 
         .language-btn.active {
-            border-color: var(--apple-blue);
-            color: var(--apple-blue);
-            opacity: 1;
+            color: var(--apple-blue);  /* 激活时为蓝色 */
+            font-weight: 500;
         }
 
         h1 {
@@ -130,8 +131,8 @@ export const getHtml = () => `
 <body>
     <div class="container">
         <div class="language-switch">
-            <button class="language-btn" data-lang="en" onclick="switchLanguage('en')">EN</button>
-            <button class="language-btn active" data-lang="zh" onclick="switchLanguage('zh')">中文</button>
+            <button class="language-btn active" data-lang="en" onclick="switchLanguage('en')">EN</button>
+            <button class="language-btn" data-lang="zh" onclick="switchLanguage('zh')">中文</button>
         </div>
 
         <h1 data-i18n="title">Game Source Finder</h1>
@@ -235,10 +236,16 @@ export const getHtml = () => `
         }
 
         function switchLanguage(lang) {
+            // 更新按钮状态
             document.querySelectorAll('.language-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.lang === lang);
+                if (btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
             });
 
+            // 更新所有文本
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
                 if (i18n[lang][key]) {
@@ -246,6 +253,7 @@ export const getHtml = () => `
                 }
             });
 
+            // 更新占位符
             document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
                 const key = element.getAttribute('data-i18n-placeholder');
                 if (i18n[lang][key]) {
@@ -265,10 +273,9 @@ export const getHtml = () => `
             setTimeout(() => copyBtn.textContent = originalText, 2000);
         }
 
-        // 初始化语言
+        // 初始化时设置为英文
         document.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('preferred-language') || 'zh';
-            switchLanguage(savedLang);
+            switchLanguage('en');  // 强制设置为英文
             updateStats();
         });
 
